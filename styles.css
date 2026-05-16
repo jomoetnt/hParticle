@@ -271,8 +271,7 @@ h3 {
 
 .jeffArticleLink {
     align-items: stretch;
-    min-height: 100px;
-    max-height: 200px;
+    height: 200px;
     display: flex;
     position: relative;
     text-decoration: none;
@@ -332,4 +331,33 @@ h3 {
     max-height: 100%;
     position: relative;
     overflow: hidden;
+}
+
+.jeffPageButtonContainer {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    
+    margin-top: 20px;
+    justify-content: center;
+    display: flex;
+}
+
+.jeffPageButton {
+    color: #ffffff;
+    background-color: #000000;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+    border: 3px solid rgb(153, 68, 202);
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 12px;
+    align-self: auto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 36px;
 }
