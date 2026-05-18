@@ -49,8 +49,11 @@ for articlePath in list(articlePaths.keys()):
     # replace title token
     articleText = articleText.replace(r'{title}', articleMetadata['title'])
 
+    # fix thumbnail path
+    jeffThumbnail = articlePath.replace('article.html', '').replace('articles/', '') + articleMetadata['thumbnail']
+
     # add article to dictionary
-    jeffArticles[articlePaths[articlePath]] = jeffArticle(articleMetadata['title'], articleMetadata['teaser'], articleMetadata['date'], articleMetadata['topic'], articleMetadata['colour'], articleMetadata['thumbnail'], articleText, articlePaths[articlePath])
+    jeffArticles[articlePaths[articlePath]] = jeffArticle(articleMetadata['title'], articleMetadata['teaser'], articleMetadata['date'], articleMetadata['topic'], articleMetadata['colour'], jeffThumbnail, articleText, articlePaths[articlePath])
 
 # sort articlePaths by date
 sortedArticles = sorted(list(jeffArticles.values()), key=lambda jeffArticle: jeffArticle.date, reverse=True)
@@ -70,6 +73,7 @@ with open('articles/article_list_item.html', 'r', encoding='utf-8') as jeffArtic
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
+    featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
     featuredArticlePreview = featuredArticle.replaceTokens(featuredArticleTemplate)
 
