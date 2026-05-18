@@ -59,13 +59,20 @@ for articlePath in list(articlePaths.keys()):
 sortedArticles = sorted(list(jeffArticles.values()), key=lambda jeffArticle: jeffArticle.date, reverse=True)
 
 # write article list and featured article
-with open('articles/article_list_item.html', 'r', encoding='utf-8') as jeffArticleItem:
+with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArticleItem:
     # make replacements to preview
     jeffArticlePreviewTemplate = jeffArticleItem.read()
     jeffArticlePreviews = []
     for sortedArticle in sortedArticles[:9]:
+        # remove 'articles/' in path
+        sortedArticle.outputPath = sortedArticle.outputPath.replace('articles/', '')
+
+        # replace tokens in article preview and add to list
         jeffArticlePreview = sortedArticle.replaceTokens(jeffArticlePreviewTemplate)
         jeffArticlePreviews.append(jeffArticlePreview)
+
+        # put 'articles/' back
+        sortedArticle.outputPath = 'articles/' + sortedArticle.outputPath
     
     # combine previews
     with open('articles/article_list.html', 'w', encoding='utf-8') as jeffArticleList:
