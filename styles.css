@@ -315,7 +315,7 @@ button {
 
 .jeffArticleLink {
     align-items: stretch;
-    height: 200px;
+    height: 220px;
     display: flex;
     position: relative;
     text-decoration: none;
@@ -324,7 +324,7 @@ button {
 
 .jeffAnnouncementLink {
     align-items: stretch;
-    height: 140px;
+    height: 108px;
     display: flex;
     position: relative;
     text-decoration: none;
@@ -347,7 +347,11 @@ button {
     align-self: stretch;
     width: 100%;
     flex: 0 1 auto;
-    padding: 32px;
+    padding-top: 16px;
+    padding-bottom: 0px;
+    padding-left: 32px;
+    padding-right: 32px;
+    margin-bottom: 0px;
 }
 
 .jeffTopicContainer {
