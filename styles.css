@@ -16,9 +16,9 @@
 
 a {
     background-color: rgba(0, 0, 0, 0);
-    color: rgb(138, 138, 255);
+    color: rgb(94, 94, 233);
     text-transform: none;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 h1 {
@@ -152,11 +152,10 @@ button {
 }
 
 .jeffIntroSection {
-    margin-top: 250px;
+    margin-top: 220px;
 }
 
 .jeffAboutSection {
-    margin-top: 250px;
     min-height: 60vh;
 }
 
@@ -308,7 +307,7 @@ button {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     justify-content: center;
-    align-self: stretch;
+    align-self: auto;
     align-items: center;
     min-height: 286px;
     max-height: 360px;
@@ -476,6 +475,10 @@ button {
     margin-right: auto;
     padding-left: 40px;
     padding-right: 40px;
+}
+
+.jeffAnnouncement {
+    max-width: 1000px;
 }
 
 .jeffArticleColumnContainer {

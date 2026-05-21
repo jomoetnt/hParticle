@@ -2,7 +2,7 @@ import os
 import datetime
 import json
 
-topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy'}
+topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy'}
 
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
 tokenPaths = {r'{jeffHeader}': 'header.html', r'{jeffFooter}': 'footer.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
@@ -24,7 +24,8 @@ for announcementName in os.listdir('announcements'):
         announcementPaths[announcementInputPath] = announcementOutputPath
 
 class jeffArticle:
-    def __init__(self, title, teaser, date, topic, thumbnail, bodyText, outputPath):
+    def __init__(self, enabled, title, teaser, date, topic, thumbnail, bodyText, outputPath):
+        self.enabled = enabled
         self.title = title
         self.teaser = teaser
         self.date = date
@@ -69,12 +70,13 @@ for articlePath in list(articlePaths.keys()):
     articleText = articleText.replace(r'{title}', articleMetadata['title'])
     articleText = articleText.replace(r'{date}', datetime.date.fromordinal(articleMetadata['date']).strftime('%B %d, %Y'))
     articleText = articleText.replace(r'{teaser}', articleMetadata['teaser'])
+    articleText = articleText.replace(r'{thumbnail}', articleMetadata['thumbnail'])
 
     # fix thumbnail path
     jeffThumbnail = articlePath.replace('jeffArticle.html', '').replace('articles/', '') + articleMetadata['thumbnail']
 
     # add article to dictionary
-    jeffArticles[articlePaths[articlePath]] = jeffArticle(articleMetadata['title'], articleMetadata['teaser'], articleMetadata['date'], articleMetadata['topic'], jeffThumbnail, articleText, articlePaths[articlePath])
+    jeffArticles[articlePaths[articlePath]] = jeffArticle(articleMetadata['enabled'], articleMetadata['title'], articleMetadata['teaser'], articleMetadata['date'], articleMetadata['topic'], jeffThumbnail, articleText, articlePaths[articlePath])
 
 # sort articlePaths by date
 sortedArticles = sorted(list(jeffArticles.values()), key=lambda jeffArticle: jeffArticle.date, reverse=True)
@@ -85,6 +87,8 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     jeffArticlePreviewTemplate = jeffArticleItem.read()
     jeffArticlePreviews = []
     for sortedArticle in sortedArticles:
+        if sortedArticle.enabled != True:
+            continue
         # remove 'articles/' in path
         sortedArticle.outputPath = sortedArticle.outputPath.replace('articles/', '')
 
@@ -101,6 +105,8 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
+    if sortedArticles[0].enabled != True:
+        featuredArticle = sortedArticles[1]
     featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
     featuredArticlePreview = featuredArticle.replaceTokens(featuredArticleTemplate)
