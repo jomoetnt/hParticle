@@ -89,8 +89,19 @@ button {
     inset: 0% 0% auto;
 }
 
+.jeffMobileWarning {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+@media (max-width: 950px) {
+    .jeffMobileWarning {display: block;}
+}
+
 .jeffNavigationContainer {
     justify-content: space-between;
+    background-color: #000000;
     align-items: center;
     width: 100%;
     max-width: 1400px;
@@ -129,7 +140,6 @@ button {
 
 .jeffNavigationButton {
     color: #ffffff;
-    background-color: #000000;
     vertical-align: top;
     text-align: left;
     margin-left: 0px;
