@@ -193,6 +193,7 @@ button {
 .jeffArticleParagraph {
     text-align: left;
     margin-bottom: 24px;
+    min-width: 450px;
     max-width: 900px;
 }
 
@@ -484,6 +485,7 @@ button {
 
 .jeffArticle {
     margin-top: 180px;
+    margin-bottom: 40px;
     line-height: 28px;
     min-height: 60vh;
     min-width: 500px;
@@ -493,10 +495,6 @@ button {
     margin-right: auto;
     padding-left: 40px;
     padding-right: 40px;
-}
-
-.jeffAnnouncement {
-    max-width: 1000px;
 }
 
 .jeffArticleColumnContainer {
