@@ -1,11 +1,12 @@
 import os
 import datetime
 import json
+import re
 
 topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy'}
 
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
-tokenPaths = {r'{jeffHeader}': 'header.html', r'{jeffFooter}': 'footer.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
+tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
 
 # add each article to the article path list
 articlePaths = {}
@@ -66,14 +67,17 @@ for articlePath in list(articlePaths.keys()):
         articleDate = datetime.date.fromisoformat(articleDetails['date'])
         articleMetadata['date'] = articleDate.toordinal()
     
+    folderName = articlePath.replace('jeffArticle.html', '').replace('articles/', '')
+
     # replace tokens in article itself
     articleText = articleText.replace(r'{title}', articleMetadata['title'])
+    articleText = articleText.replace(r'{folder}', folderName)
     articleText = articleText.replace(r'{date}', datetime.date.fromordinal(articleMetadata['date']).strftime('%B %d, %Y'))
     articleText = articleText.replace(r'{teaser}', articleMetadata['teaser'])
     articleText = articleText.replace(r'{thumbnail}', articleMetadata['thumbnail'])
 
     # fix thumbnail path
-    jeffThumbnail = articlePath.replace('jeffArticle.html', '').replace('articles/', '') + articleMetadata['thumbnail']
+    jeffThumbnail = folderName + articleMetadata['thumbnail']
 
     # add article to dictionary
     jeffArticles[articlePaths[articlePath]] = jeffArticle(articleMetadata['enabled'], articleMetadata['title'], articleMetadata['teaser'], articleMetadata['date'], articleMetadata['topic'], jeffThumbnail, articleText, articlePaths[articlePath])
@@ -133,8 +137,11 @@ for announcementPath in list(announcementPaths.keys()):
         announcementDate = datetime.date.fromisoformat(announcementDetails['date'])
         announcementMetadata['date'] = announcementDate.toordinal()
     
+    folderName = articlePath.replace('jeffArticle.html', '').replace('articles/', '')
+
     # replace tokens in announcement itself
     announcementText = announcementText.replace(r'{title}', announcementMetadata['title'])
+    announcementText = announcementText.replace(r'{folder}', folderName)
     announcementText = announcementText.replace(r'{date}', datetime.date.fromordinal(announcementMetadata['date']).strftime('%B %d, %Y'))
 
     # add announcement to dictionary
@@ -172,6 +179,11 @@ with open('announcements/jeffAnnouncementPreview.html', 'r', encoding='utf-8') a
     with open('announcements/featured.html', 'w', encoding='utf-8') as jeffAnnouncementFeaturedPreview:
         jeffAnnouncementFeaturedPreview.write(featuredAnnouncementPreview)
 
+# read special term template
+termTemplate = ''
+with open('articles/jeffTerm.html', 'r', encoding='utf-8') as termFile:
+    termTemplate = termFile.read()
+
 # read token files
 tokenTexts = {}
 for token in list(tokenPaths.keys()):
@@ -194,10 +206,28 @@ for announcementPath in list(announcementPaths.keys()):
     subpagePaths[announcementPath] = announcementPaths[announcementPath]
     subpageTexts[announcementPath] = jeffAnnouncements[subpagePaths[announcementPath]].bodyText
 
-# make replacements
+# make replacements 
 for pagePath in list(subpageTexts.keys()):
+    # replace static tokens
     for token in list(tokenTexts.keys()):
         subpageTexts[pagePath] = subpageTexts[pagePath].replace(token, tokenTexts[token])
+
+    # replace special terms
+    # find matches of [termText](termExplanation), returns an array of tuples (termText, termExplanation)
+    termMatches = re.findall(r'\[(.*?)\]\((.*?)\)', subpageTexts[pagePath])
+    for termMatch in termMatches:
+        # extract termText and termExplanation from termMatch tuple
+        termText = termMatch[0]
+        termExplanation = termMatch[1]
+
+        # recreate original '[termText](termExplanation)' match
+        matchedExpression = '[{0}]({1})'.format(termText, termExplanation)
+
+        # replace tokens in term template
+        jeffTerm = termTemplate.replace(r'{jeffTermText}', termText).replace(r'{jeffTermExplanation}', termExplanation)
+
+        # replace special term pattern with HTML element
+        subpageTexts[pagePath] = subpageTexts[pagePath].replace(matchedExpression, jeffTerm)
 
 # write output files
 for pagePath in list(subpageTexts.keys()):

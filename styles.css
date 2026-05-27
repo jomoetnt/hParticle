@@ -196,6 +196,7 @@ button {
     margin-bottom: 24px;
     min-width: 450px;
     max-width: 900px;
+    position: relative;
 }
 
 .jeffSubtitle {
@@ -299,6 +300,54 @@ button {
     font-size: 24px;
     text-decoration: none;
     text-align: left;
+}
+
+.jeffTerm {
+    position: relative;
+}
+
+.jeffTermText {
+    color: rgb(231, 73, 61)
+}
+
+.jeffTermText:hover {
+    cursor: pointer;
+}
+
+.jeffTermPopup {
+    z-index: 1;
+    width: 350px;
+    left: calc(50% - 175px);
+    position: absolute;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.jeffTermExplanationContainer {
+    max-width: 900px;
+    border: 1px solid #ffffff;
+    padding: 10px;
+    color: #ffffff;
+    background-color: #181818;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.jeffTermExplanationContainer:hover {
+    cursor: default;
+}
+
+.jeffTermExplanation:hover {
+    cursor: text;
+}
+
+.jeffTriangle {
+    justify-self: center;
+    width: 0;
+    height: 0;
+    border: solid 12px;
+    border-top: 0px;
+    border-color: transparent transparent #ffffff transparent;
 }
 
 .jeffDateSmall {
