@@ -290,6 +290,7 @@ button {
 }
 
 .jeffFeaturedArticleHeading {
+    color: #ffffff;
     margin-top: 16px;
     padding-bottom: 5px;
     font-size: 40px;
@@ -528,6 +529,7 @@ button {
 }
 
 .jeffArticleHeadingSmall {
+    color: #ffffff;
     margin-top: 8px;
     margin-bottom: 5px;
     font-size: 24px;
