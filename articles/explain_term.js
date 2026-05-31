@@ -13,3 +13,8 @@ function termClicked(termElement)
         popupElement.style.opacity = "0.0";
     }
 }
+
+function termClosed(popupElement)
+{
+    popupElement.style.opacity = "0.0";
+}

@@ -2,6 +2,11 @@
     <a class="jeffTermText" onclick="termClicked(this.parentElement)">{jeffTermText}</a><div class="jeffTermPopup">
         <div class="jeffTriangle"></div>
         <div class="jeffTermExplanationContainer">
+            <div class="jeffTermExplanationHeaderContainer">
+                <button class="fa fa-close jeffCloseButton" style="opacity: 0;"></button>
+                <div class="jeffTermTitle">{jeffTermText}</div>
+                <button class="fa fa-close jeffCloseButton" onclick="termClosed(this.parentElement.parentElement.parentElement)"></button>
+            </div>
             <div class="jeffTermExplanation">
                 {jeffTermExplanation}
             </div>

@@ -53,7 +53,7 @@ h2 {
 h3 {
     color: #ffffff;
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-size: 20px;
     font-weight: 500;
     line-height: 30px;
@@ -81,6 +81,7 @@ button {
 .jeffHeader {
     border-bottom: 1px solid #181818;
     background-color: #000000;
+    z-index: 1;
     flex-direction: column;
     align-items: center;
     height: 10%;
@@ -326,7 +327,6 @@ button {
 .jeffTermExplanationContainer {
     max-width: 900px;
     border: 1px solid #ffffff;
-    padding: 10px;
     color: #ffffff;
     background-color: #181818;
     text-transform: none;
@@ -337,8 +337,47 @@ button {
     cursor: default;
 }
 
+.jeffTermExplanation {
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 20px;
+    padding-top: 0px;
+}
+
 .jeffTermExplanation:hover {
     cursor: text;
+}
+
+.jeffTermExplanationHeaderContainer {
+    margin-top: 6px;
+    width: 95%;
+    height: 40px;
+    justify-self: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.jeffTermTitle {
+    font-weight: 700;
+    text-align: center;
+    line-height: 30px;
+    justify-self: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+}
+
+.jeffCloseButton {
+    background-color: #222222;
+    color: #dddddd;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .jeffTriangle {
@@ -569,14 +608,14 @@ button {
     justify-content: center;
     justify-self: center;
     align-self: center;
-    padding-left: 30px;
+    padding-left: 0px;
     padding-right: 0px;
     padding-top: 10px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
-    max-width: 450px;
+    max-width: 700px;
 }
 
 .jeffArticleImagesContainer {

@@ -214,10 +214,10 @@ for pagePath in list(subpageTexts.keys()):
 
     # replace special terms
     # find matches of [termText](termExplanation), returns an array of tuples (termText, termExplanation)
-    termMatches = re.findall(r'\[(.*?)\]\((.*?)\)', subpageTexts[pagePath])
+    termMatches = re.findall(r'\[(.*?)\]\((.*?)\)', subpageTexts[pagePath], flags=re.DOTALL)
     for termMatch in termMatches:
         # extract termText and termExplanation from termMatch tuple
-        termText = termMatch[0]
+        termText = termMatch[0].replace('\n', '')
         termExplanation = termMatch[1]
 
         # recreate original '[termText](termExplanation)' match
