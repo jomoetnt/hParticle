@@ -58,6 +58,10 @@ h3 {
     font-weight: 500;
     line-height: 30px;
     justify-self: left;
+} 
+
+.jeffSectionHeading {
+    color: #ffffff;
 }
 
 button {
