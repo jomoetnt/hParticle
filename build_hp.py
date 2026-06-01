@@ -211,20 +211,26 @@ for pagePath in list(subpageTexts.keys()):
     # replace static tokens
     for token in list(tokenTexts.keys()):
         subpageTexts[pagePath] = subpageTexts[pagePath].replace(token, tokenTexts[token])
+    
+    # replace escaped parentheses
+    escapedText = subpageTexts[pagePath] = subpageTexts[pagePath].replace(r'\(', r'{LPAR}').replace(r'\)', r'{RPAR}')
 
     # replace special terms
     # find matches of [termText](termExplanation), returns an array of tuples (termText, termExplanation)
-    termMatches = re.findall(r'\[(.*?)\]\((.*?)\)', subpageTexts[pagePath], flags=re.DOTALL)
+    termMatches = re.findall(r'\[(.*?)\]\((.*?)\)', escapedText, flags=re.DOTALL)
     for termMatch in termMatches:
         # extract termText and termExplanation from termMatch tuple
-        termText = termMatch[0].replace('\n', '')
+        termText = termMatch[0]
         termExplanation = termMatch[1]
 
         # recreate original '[termText](termExplanation)' match
         matchedExpression = '[{0}]({1})'.format(termText, termExplanation)
 
+        # replace escaped tokens in explanation
+        replacementExplanation = termExplanation.replace(r'{LPAR}', '(').replace(r'{RPAR}', ')')
+
         # replace tokens in term template
-        jeffTerm = termTemplate.replace(r'{jeffTermText}', termText).replace(r'{jeffTermExplanation}', termExplanation)
+        jeffTerm = termTemplate.replace(r'{jeffTermText}', termText).replace(r'{jeffTermExplanation}', replacementExplanation)
 
         # replace special term pattern with HTML element
         subpageTexts[pagePath] = subpageTexts[pagePath].replace(matchedExpression, jeffTerm)
