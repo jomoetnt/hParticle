@@ -2,6 +2,9 @@ import os
 import datetime
 import json
 import re
+import sys
+
+print(sys.argv)
 
 topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy'}
 
