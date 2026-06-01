@@ -17,18 +17,20 @@
     </head>
     <body class="jeffBody">
         {jeffHeader}
-        <div class="jeffArticleListContainer">
-            <div class="jeffHorizontalContainer">
-                <div class="jeffSectionTitleContainer">
-                    <h3>Latest Announcements</h3>
-                </div>
-                <div class="jeffAnnouncementList">
-                    {jeffAnnouncementList}
-                </div>
-                <div class="jeffPageIndicator">Showing Page 1 of 1</div>
-                <div role="navigation" class="jeffPageButtonContainer">
-                    <button class="jeffPageButton" id="PrevButton" onclick="changePage(-1)">Previous Page</a>
-                    <button class="jeffPageButton" id="NextButton" onclick="changePage(1)">Next Page</a>
+        <div class="jeffFeaturedSection">
+            <div class="jeffArticleListContainer">
+                <div class="jeffHorizontalContainer">
+                    <div class="jeffSectionTitleContainer">
+                        <h2 class="jeffSectionHeading">Latest Announcements</h2>
+                    </div>
+                    <div class="jeffAnnouncementList">
+                        {jeffAnnouncementList}
+                    </div>
+                    <div class="jeffPageIndicator">Showing Page 1 of 1</div>
+                    <div role="navigation" class="jeffPageButtonContainer">
+                        <button class="jeffPageButton" id="PrevButton" onclick="changePage(-1)">Previous Page</a>
+                        <button class="jeffPageButton" id="NextButton" onclick="changePage(1)">Next Page</a>
+                    </div>
                 </div>
             </div>
         </div>

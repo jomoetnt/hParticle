@@ -78,6 +78,7 @@ button {
     font-size: 18px;
     font-weight: 300;
     line-height: 32px;
+    min-width: 600px;
     min-height: 100%;
     margin: 0;
     display: block;
@@ -182,7 +183,7 @@ button {
 
 .jeffHorizontalContainer {
     max-width: 1300px;
-    min-width: 700px;
+    min-width: 600px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 32px;
@@ -485,6 +486,7 @@ button {
     width: 80%;
     flex: 0 1 auto;
     padding: 32px;
+    max-height: 100%;
 }
 
 .jeffAnnouncementPreview {
@@ -642,4 +644,10 @@ button {
 
 #NextButton {
     display: none;
+}
+
+@media (max-width: 750px) {
+    .jeffTeaser {display: none;}
+    .jeffArticleLink {height: 180px; width: max(90vw, 560px);}
+    .jeffAnnouncementLink {width: max(90vw, 560px);}
 }
