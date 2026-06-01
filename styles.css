@@ -86,7 +86,7 @@ button {
 .jeffHeader {
     border-bottom: 1px solid #181818;
     background-color: #000000;
-    z-index: 1;
+    z-index: 2;
     flex-direction: column;
     align-items: center;
     height: 10%;
@@ -324,10 +324,9 @@ button {
 .jeffTermPopup {
     z-index: 1;
     width: 350px;
-    left: calc(50% - 175px);
-    position: absolute;
+    position: fixed;
     opacity: 0;
-    transition: all .5s;
+    transition: opacity .5s;
 }
 
 .jeffTermExplanationContainer {
@@ -388,6 +387,7 @@ button {
 
 .jeffTriangle {
     justify-self: center;
+    position: relative;
     width: 0;
     height: 0;
     border: solid 12px;
