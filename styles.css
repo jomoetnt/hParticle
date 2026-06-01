@@ -22,7 +22,7 @@ a {
 }
 
 h1 {
-    color: #fefefe;
+    color: #dddddd;
     margin-top: 20px;
     margin-bottom: 10px;
     margin-right: 0px;
@@ -44,7 +44,7 @@ h1.articleTitle {
 }
 
 h2 {
-    color: #fefefe;
+    color: #dddddd;
     font-size: 24px;
     padding-top: 0px;
     margin-bottom: 8px;
@@ -52,7 +52,7 @@ h2 {
 }
 
 h3 {
-    color: #fefefe;
+    color: #dddddd;
     margin-top: 20px;
     margin-bottom: 8px;
     font-size: 20px;
