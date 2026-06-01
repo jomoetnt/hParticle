@@ -213,6 +213,7 @@ button {
 }
 
 .jeffFeaturedSection {
+    width: 90%;
     padding-top: 60px;
 }
 
@@ -467,6 +468,7 @@ button {
 }
 
 .jeffAnnouncementLink {
+    justify-content: left;
     align-items: stretch;
     height: 108px;
     display: flex;

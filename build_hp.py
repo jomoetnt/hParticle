@@ -4,13 +4,15 @@ import json
 import re
 import sys
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 if len(sys.argv) > 1:
     if sys.argv[1] == '-debug':
         if sys.argv[2] == 'true':
             DEBUG_MODE = True
-        elif sys.argv[2] != 'false':
+        elif sys.argv[2] == 'false':
+            DEBUG_MODE = False
+        else:
             print('Invalid arguments. Debug mode must be either \'true\' or \'false\'.')
             quit()
 
