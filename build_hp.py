@@ -4,7 +4,15 @@ import json
 import re
 import sys
 
-print(sys.argv)
+DEBUG_MODE = False
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == '-debug':
+        if sys.argv[2] == 'true':
+            DEBUG_MODE = True
+        elif sys.argv[2] != 'false':
+            print('Invalid arguments. Debug mode must be either \'true\' or \'false\'.')
+            quit()
 
 topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy'}
 
@@ -237,6 +245,27 @@ for pagePath in list(subpageTexts.keys()):
 
         # replace special term pattern with HTML element
         subpageTexts[pagePath] = subpageTexts[pagePath].replace(matchedExpression, jeffTerm)
+    
+    # replace debug terms
+    # find matches of {releaseValue}:{debugValue}
+    debugMatches = re.findall(r'\{(.*?)\}:\{(.*?)\}', subpageTexts[pagePath], flags=re.DOTALL)
+    for debugMatch in debugMatches:
+        # extract releaseValue and debugValue from debugMatch tuple
+        releaseValue = debugMatch[0]
+        debugValue = debugMatch[1]
+
+        # recreate original '{releaseValue}:{debugValue}' match
+        matchedExpression = '{{{0}}}:{{{1}}}'.format(releaseValue, debugValue)
+
+        # set replacement value
+        debugReplacement = None
+        if DEBUG_MODE == False:
+            debugReplacement = releaseValue
+        else:
+            debugReplacement = debugValue
+        
+        # replace debug term
+        subpageTexts[pagePath] = subpageTexts[pagePath].replace(matchedExpression, debugReplacement)
 
 # write output files
 for pagePath in list(subpageTexts.keys()):
