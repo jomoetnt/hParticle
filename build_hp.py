@@ -21,13 +21,16 @@ topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics'
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
 tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
 
+licenseTypes = {'CC4': ('https://creativecommons.org/licenses/by-sa/4.0/deed.en', 'CC 4.0')}
+
 # add each article to the article path list
 articlePaths = {}
 for articleName in os.listdir('articles'):
     if os.path.isdir('articles/' + articleName):
-        articleInputPath = 'articles/' + articleName + '/jeffArticle.html'
-        articleOutputPath = 'articles/' + articleName + '/index.html'
-        articlePaths[articleInputPath] = articleOutputPath
+        if os.path.isfile('articles/' + articleName + '/article.jeml'):
+            articleInputPath = 'articles/' + articleName + '/article.jeml'
+            articleOutputPath = 'articles/' + articleName + '/index.html'
+            articlePaths[articleInputPath] = articleOutputPath
         
 # add each announcement to the announcement path list
 announcementPaths = {}
@@ -61,16 +64,93 @@ class jeffAnnouncement:
     def replaceTokens(self, inputText):        
         return inputText.replace(r'{title}', self.title).replace(r'{date}', datetime.date.fromordinal(self.date).strftime('%B %d, %Y')).replace(r'{link}', self.outputPath.replace('index.html', ''))
 
+# turn jeml file into HTML article
+def jemlToArticle(jemlText, metadata):
+    articleBody = ''
+    # read jeml line by line
+    lines = jemlText.splitlines()
+    skip_numbers = []
+    for i in range(len(lines)):
+        if i in skip_numbers:
+            continue
+        # skip empty lines
+        if lines[i] == '':
+            continue
+        # level 2 heading
+        elif lines[i].startswith('## '):
+            heading2 = lines[i][3:]
+            articleBody = articleBody + '<h2>{0}</h2>'.format(heading2)
+        # level 3 heading
+        elif lines[i].startswith('### '):
+            heading3 = lines[i][4:]
+            articleBody = articleBody + '<h3>{0}</h3>'.format(heading3)
+        # image
+        elif lines[i].startswith('['):
+            imgSource = ''
+            imgAttribution = ''
+            # look for attributed image match
+            imgAttrMatches = re.findall(r'\[(.*?)\]\{(.*?)\}\((.*?)\)\{(.*?)\}', lines[i], flags=re.DOTALL)
+            if len(imgAttrMatches) == 1:
+                # extract image source
+                imgSource = imgAttrMatches[0][0]
+
+                # extract attribution details
+                imgAttrSrcLink = imgAttrMatches[0][1]
+                imgAttrSrcName = imgAttrMatches[0][2]
+                imgAttrLicense = imgAttrMatches[0][3]
+
+                # look up license name and link from ID
+                imgLicenseLink = licenseTypes[imgAttrLicense][0]
+                imgLicenseName = licenseTypes[imgAttrLicense][1]
+
+                # get image attribution template
+                jeffImageAttributionTemplate = ''
+                with open('articles/jeffImageAttribution.html', 'r', encoding='utf-8') as attributionFile:
+                    jeffImageAttributionTemplate = attributionFile.read()
+                
+                # construct image attribution
+                imgAttribution = jeffImageAttributionTemplate.replace(r'{sourceLink}', imgAttrSrcLink).replace(r'{sourceName}', imgAttrSrcName).replace(r'{licenseLink}', imgLicenseLink).replace(r'{licenseName}', imgLicenseName)
+            else:
+                # look for image match
+                imgMatches = re.findall(r'\[(.*?)\]', lines[i], flags=re.DOTALL)
+                # extract image source
+                imgSource = imgMatches[0]      
+            # read image caption
+            imgCaption = lines[i + 1]
+            # skip line so it isn't also the next paragraph
+            skip_numbers.append(i + 1)
+
+            # get image template
+            jeffImageTemplate = ''
+            with open('articles/jeffImage.html', 'r', encoding='utf-8') as imageTemplateFile:
+                jeffImageTemplate = imageTemplateFile.read()
+            
+            # construct image
+            jeffImage = jeffImageTemplate.replace(r'{source}', 'images/' + imgSource).replace(r'{jeffAttribution}', imgAttribution).replace(r'{jeffCaption}', imgCaption)
+            articleBody = articleBody + jeffImage
+        # paragraph
+        else:
+            articleBody = articleBody + '<div class="jeffArticleParagraph">{0}</div>'.format(lines[i])
+    
+    # put article body in article template
+    articleTemplateBody = ''
+    with open('articles/jeffArticleTemplate.html', 'r', encoding='utf-8') as articleTemplateBodyFile:
+        articleTemplateBody = articleTemplateBodyFile.read()
+
+    outputText = articleTemplateBody.replace(r'{jeffArticle}', articleBody)
+
+    return outputText
+
 # make outputPath-article dictionary
 jeffArticles = {}
 for articlePath in list(articlePaths.keys()):
-    # read article text
-    articleText = ''
+    # read jeml text
+    jemlText = ''
     with open(articlePath, 'r', encoding='utf-8') as articleFile:
-        articleText = articleFile.read()
+        jemlText = articleFile.read()
 
     # read article details
-    articlePreviewPath = articlePath.replace('jeffArticle.html', 'article_details.json')
+    articlePreviewPath = articlePath.replace('article.jeml', 'article_details.json')
     articleMetadata = {}
     with open(articlePreviewPath, 'r', encoding='utf-8') as articleFile:
         articleDetails = json.load(articleFile)
@@ -79,8 +159,11 @@ for articlePath in list(articlePaths.keys()):
 
         articleDate = datetime.date.fromisoformat(articleDetails['date'])
         articleMetadata['date'] = articleDate.toordinal()
+
+    # turn jeff markdown into HTML article
+    articleText = jemlToArticle(jemlText, articleMetadata)
     
-    folderName = articlePath.replace('jeffArticle.html', '').replace('articles/', '')
+    folderName = articlePath.replace('article.jeml', '').replace('articles/', '')
 
     # replace tokens in article itself
     articleText = articleText.replace(r'{title}', articleMetadata['title'])
@@ -150,7 +233,7 @@ for announcementPath in list(announcementPaths.keys()):
         announcementDate = datetime.date.fromisoformat(announcementDetails['date'])
         announcementMetadata['date'] = announcementDate.toordinal()
     
-    folderName = articlePath.replace('jeffArticle.html', '').replace('articles/', '')
+    folderName = announcementPath.replace('jeffAnnouncement.html', '').replace('announcements/', '')
 
     # replace tokens in announcement itself
     announcementText = announcementText.replace(r'{title}', announcementMetadata['title'])
