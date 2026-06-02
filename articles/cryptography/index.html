@@ -7,7 +7,7 @@
         <meta name="description" content="How do finite number fields and elliptic curves keep credit card transactions both fast and secure?">
         <meta property="og:title" content="ħParticle - Cryptolography">
         <meta property="og:type" content="website">
-        <meta property="og:image" content="https://jomoetnt.github.io/hParticle/articles/cryptography//elliptic.png">
+        <meta property="og:image" content="https://jomoetnt.github.io/hParticle/articles/cryptography//images/elliptic.png">
         <meta property="og:url" content="https://jomoetnt.github.io/hParticle/articles/cryptography/">
         <meta property="og:description" content="How do finite number fields and elliptic curves keep credit card transactions both fast and secure?">
         <meta property="og:site_name" content="ħParticle">
@@ -24,14 +24,14 @@
     </div>
     <div class="jeffNavigationContainer">
         <div class="jeffHomeButtonContainer">
-            <a href="/hParticle/" class="jeffHomeButton">
-                <img alt="hParticle Logo" src="/hParticle/hparticleicon.png" width=80>
+            <a href="D:\nonsense\hParticle\index.html" class="jeffHomeButton">
+                <img alt="hParticle Logo" src="D:\nonsense\hParticle\hparticleicon.png" width=80>
             </a>
         </div>
         <nav role="navigation" class="jeffNavigation">
-            <a href="/hParticle/articles" class="jeffNavigationButton">Articles</a>
-            <a href="/hParticle/announcements" class="jeffNavigationButton">Announcements</a>
-            <a href="/hParticle/about" class="jeffNavigationButton">About</a>
+            <a href="D:\nonsense\hParticle\articles\index.html" class="jeffNavigationButton">Articles</a>
+            <a href="D:\nonsense\hParticle\announcements\index.html" class="jeffNavigationButton">Announcements</a>
+            <a href="D:\nonsense\hParticle\about\index.html" class="jeffNavigationButton">About</a>
             <!-- <a href="donate" class="jeffNavigationButton">Donate</a> -->
         </nav>
     </div>
@@ -48,7 +48,7 @@
                     the internet is structured, this possibility cannot be eliminated. Therefore, to prevent attackers from learning secrets like
                     these, we need some way for only the intended recipients to be able to decipher our message. Of course, speed is also a factor,
                     and truly reliable ways to achieve this are too inefficient to be reasonably used, so in practice, as long as a secret becomes 
-                    irrelevant before it can be cracked, the system is considered secure (this could range from seconds to years). 
+                    irrelevant before it can be cracked, the system is considered secure (this could range from seconds to years).
                 </div>
                 <h2>Overview</h2>
                 <div class="jeffArticleParagraph">
@@ -62,7 +62,7 @@
                     as long as needed.
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="A visual representation of the Caesar cipher." src="caesar.png" class="jeffArticleImage">
+                    <img alt="A visual representation of the Caesar cipher." src="images/caesar.png" class="jeffArticleImage">
                     <div class="jeffAttribution">
                         <a href="https://commons.wikimedia.org/wiki/File:Caesar_cipher_Encode_and_Decode.PNG">Wikimedia</a>
                         (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC 4.0</a>)
@@ -86,7 +86,7 @@
                     its simplicity, it was the only known kind until the 20th century.
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="A visual representation of the one-time pad." src="otp.png" class="jeffArticleImage">
+                    <img alt="A visual representation of the one-time pad." src="images/otp.png" class="jeffArticleImage">
                     <div class="jeffCaption">
                         The Vigenère cipher (a symmetric encryption method) is essentially a Caesar cipher where the shift is different for each letter's 
                         position in the plaintext. The key is the sequence of shifts, which is repeated until it reaches the length of the plaintext. If the 
@@ -116,7 +116,7 @@
                     account by entering an incorrect password, for example). 
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="A Twitter user complains about Virgin Media's security practices, but it falls on deaf ears." src="illegal.png" class="jeffArticleImage">
+                    <img alt="A Twitter user complains about Virgin Media's security practices, but it falls on deaf ears." src="images/illegal.png" class="jeffArticleImage">
                     <div class="jeffCaption">
                         If you ever realize that your password is being stored in plaintext on some website, make sure you aren't reusing it elsewhere because 
                         it is fairly likely to fall into nefarious hands at some point. To check if this has already happened, you can put your email address
@@ -148,7 +148,7 @@
                     operation to each block of plaintext with the previous block (a randomly generated block is used for the first one). 
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="An image of a penguin encrypted using the ECB mode still allows you to see its shape." src="ecb.png" class="jeffArticleImage">
+                    <img alt="An image of a penguin encrypted using the ECB mode still allows you to see its shape." src="images/ecb.png" class="jeffArticleImage">
                     <div class="jeffAttribution">
                         <a href="https://commons.wikimedia.org/wiki/File:Tux_encrypted_ecb.png">Wikipedia</a>
                         (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC0 1.0</a>)
@@ -196,7 +196,7 @@
                     a large prime number makes it impractical to break the encryption (although a larger primitive root is just as secure as a smaller one).
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="An elliptic curve." src="elliptic.png" class="jeffArticleImage">
+                    <img alt="An elliptic curve." src="images/elliptic.png" class="jeffArticleImage">
                     <div class="jeffCaption">
                         Diffie-Hellman key exchange works for other finite <span class="jeffTerm">
     <a class="jeffTermText" onclick="termClicked(this.parentElement)">cyclic</a><div class="jeffTermPopup">
@@ -228,7 +228,7 @@
                     whatever hash they want by appending data to the end of it, allowing them to mimic the hash of a different file.
                 </div>
                 <div class="jeffArticleImageContainer">
-                    <img alt="The birthday problem in relation to a birthday attack." src="birthday_attack.png" class="jeffArticleImage">
+                    <img alt="The birthday problem in relation to a birthday attack." src="images/birthday_attack.png" class="jeffArticleImage">
                     <div class="jeffAttribution">
                         <a href="https://commons.wikimedia.org/wiki/File:Birthday_attack_vs_paradox.svg">Wikipedia</a>
                         (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC 4.0</a>)
