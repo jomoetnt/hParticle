@@ -7,7 +7,7 @@ import sys
 DEBUG_MODE = True
 
 if len(sys.argv) > 1:
-    if sys.argv[1] == '-debug':
+    if sys.argv[1] == '--debug' or sys.argv[1] == '-d':
         if sys.argv[2] == 'true':
             DEBUG_MODE = True
         elif sys.argv[2] == 'false':
@@ -29,6 +29,10 @@ for articleName in os.listdir('articles'):
     if os.path.isdir('articles/' + articleName):
         if os.path.isfile('articles/' + articleName + '/article.jeml'):
             articleInputPath = 'articles/' + articleName + '/article.jeml'
+            articleOutputPath = 'articles/' + articleName + '/index.html'
+            articlePaths[articleInputPath] = articleOutputPath
+        elif os.path.isfile('articles/' + articleName + '/jeffArticle.html'):
+            articleInputPath = 'articles/' + articleName + '/jeffArticle.html'
             articleOutputPath = 'articles/' + articleName + '/index.html'
             articlePaths[articleInputPath] = articleOutputPath
         
@@ -144,13 +148,21 @@ def jemlToArticle(jemlText, metadata):
 # make outputPath-article dictionary
 jeffArticles = {}
 for articlePath in list(articlePaths.keys()):
-    # read jeml text
+    # read jeml/html text
     jemlText = ''
     with open(articlePath, 'r', encoding='utf-8') as articleFile:
         jemlText = articleFile.read()
 
+    legacy_article = False
+
+    # set legacy mode and article metadata path
+    articlePreviewPath = ''
+    if articlePath.endswith('article.jeml'):
+        articlePreviewPath = articlePath.replace('article.jeml', 'article_details.json')
+    elif articlePath.endswith('jeffArticle.html'):
+        articlePreviewPath = articlePath.replace('jeffArticle.html', 'article_details.json')
+        legacy_article = True
     # read article details
-    articlePreviewPath = articlePath.replace('article.jeml', 'article_details.json')
     articleMetadata = {}
     with open(articlePreviewPath, 'r', encoding='utf-8') as articleFile:
         articleDetails = json.load(articleFile)
@@ -160,10 +172,12 @@ for articlePath in list(articlePaths.keys()):
         articleDate = datetime.date.fromisoformat(articleDetails['date'])
         articleMetadata['date'] = articleDate.toordinal()
 
+    articleText = jemlText
     # turn jeff markdown into HTML article
-    articleText = jemlToArticle(jemlText, articleMetadata)
+    if legacy_article == False:
+        articleText = jemlToArticle(jemlText, articleMetadata)
     
-    folderName = articlePath.replace('article.jeml', '').replace('articles/', '')
+    folderName = articlePath.replace('article.jeml', '').replace('jeffArticle.html', '').replace('articles/', '')
 
     # replace tokens in article itself
     articleText = articleText.replace(r'{title}', articleMetadata['title'])
