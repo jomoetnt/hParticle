@@ -102,23 +102,24 @@ def jemlToArticle(jemlText, metadata):
                 imgAttrSrcLink = imgAttrMatches[0][1]
                 imgAttrSrcName = imgAttrMatches[0][2]
                 imgAttrLicense = imgAttrMatches[0][3]
-
-                # look up license name and link from ID
-                imgLicenseLink = licenseTypes[imgAttrLicense][0]
-                imgLicenseName = licenseTypes[imgAttrLicense][1]
-
-                # get image attribution template
-                jeffImageAttributionTemplate = ''
-                with open('articles/jeffImageAttribution.html', 'r', encoding='utf-8') as attributionFile:
-                    jeffImageAttributionTemplate = attributionFile.read()
                 
                 # construct image attribution
-                imgAttribution = jeffImageAttributionTemplate.replace(r'{sourceLink}', imgAttrSrcLink).replace(r'{sourceName}', imgAttrSrcName).replace(r'{licenseLink}', imgLicenseLink).replace(r'{licenseName}', imgLicenseName)
+                imgAttribution = ' <div class="jeffAttribution"><a href="{0}">{1}</a>'.format(imgAttrSrcLink, imgAttrSrcName)
+
+                # look up license name and link from ID
+                if imgAttrLicense != '':
+                    imgLicenseLink = licenseTypes[imgAttrLicense][0]
+                    imgLicenseName = licenseTypes[imgAttrLicense][1]
+
+                    imgLicense = '(<a href="{0}">{1}</a>)</div>'.format(imgLicenseLink, imgLicenseName)
+                    imgAttribution = imgAttribution + ' ' + imgLicense
+                else:
+                    imgAttribution = imgAttribution + '</div>'
             else:
                 # look for image match
                 imgMatches = re.findall(r'\[(.*?)\]', lines[i], flags=re.DOTALL)
                 # extract image source
-                imgSource = imgMatches[0]      
+                imgSource = imgMatches[0]
             # read image caption
             imgCaption = lines[i + 1]
             # skip line so it isn't also the next paragraph
@@ -201,7 +202,7 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     jeffArticlePreviewTemplate = jeffArticleItem.read()
     jeffArticlePreviews = []
     for sortedArticle in sortedArticles:
-        if sortedArticle.enabled != True:
+        if sortedArticle.enabled == False and DEBUG_MODE == False:
             continue
         # remove 'articles/' in path
         sortedArticle.outputPath = sortedArticle.outputPath.replace('articles/', '')
@@ -219,7 +220,7 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
-    if sortedArticles[0].enabled != True:
+    if sortedArticles[0].enabled == False and DEBUG_MODE == False:
         featuredArticle = sortedArticles[1]
     featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
