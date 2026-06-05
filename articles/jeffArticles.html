@@ -16,17 +16,17 @@
         <link rel="icon" href="../hparticleicon.png">
         <script src="display_articles.js"></script>
     </head>
-    <body class="jeffBody">
+    <body class="jeffBody" onload="updatePages()">
         {jeffHeader}
         <div class="jeffArticleListContainer">
             <div class="jeffHorizontalContainer">
                 <div class="jeffSectionTitleContainer">
                     <h2 class="jeffSectionHeading">Latest Articles</h3>
                 </div>
-                <div class="jeffArticleList">
+                <div class="jeffArticleList" onload="updatePages()">
                     {jeffArticleList}
                 </div>
-                <div class="jeffPageIndicator">Showing Page 1 of 1</div>
+                <div class="jeffPageIndicator" id="pageNumDisplay">Showing Page 1 of 1</div>
                 <div role="navigation" class="jeffPageButtonContainer">
                     <button class="jeffPageButton" id="PrevButton" onclick="changePage(-1)">Previous Page</a>
                     <button class="jeffPageButton" id="NextButton" onclick="changePage(1)">Next Page</a>

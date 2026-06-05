@@ -16,7 +16,7 @@
         <link rel="icon" href="../hparticleicon.png">
         <script src="display_articles.js"></script>
     </head>
-    <body class="jeffBody">
+    <body class="jeffBody" onload="updatePages()">
         <div class="jeffHeader">
     <div class="jeffMobileWarning">
         This website may not display properly on your device.
@@ -40,8 +40,8 @@
                 <div class="jeffSectionTitleContainer">
                     <h2 class="jeffSectionHeading">Latest Articles</h3>
                 </div>
-                <div class="jeffArticleList">
-                    <div class="jeffArticleListItem">
+                <div class="jeffArticleList" onload="updatePages()">
+                    <div class="jeffArticleListPage" id="page_1"><div class="jeffArticleListItem">
     <a href="cryptography/" class="jeffArticleLink">
         <div class="jeffSmallArticlePreview">
             <div class="jeffTopicSmall" style="color: var(--computing-topic-color);">Computing</div>
@@ -77,9 +77,9 @@
         </div>
         <img alt="Article thumbnail" src="the_unreasonable_effectiveness_of_mathematics/images/pythagoreans.png" class="jeffArticleImageSmall">
     </a>
-</div>
+</div></div>
                 </div>
-                <div class="jeffPageIndicator">Showing Page 1 of 1</div>
+                <div class="jeffPageIndicator" id="pageNumDisplay">Showing Page 1 of 1</div>
                 <div role="navigation" class="jeffPageButtonContainer">
                     <button class="jeffPageButton" id="PrevButton" onclick="changePage(-1)">Previous Page</a>
                     <button class="jeffPageButton" id="NextButton" onclick="changePage(1)">Next Page</a>
