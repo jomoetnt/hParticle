@@ -16,10 +16,12 @@ if len(sys.argv) > 1:
             print('Invalid arguments. Debug mode must be either \'true\' or \'false\'.')
             quit()
 
+PAGE_LIST_LENGTH = 5
+
 topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy', 'Other': 'other'}
 
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
-tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
+tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/_article_list/page_1.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
 
 licenseTypes = {'CC4': ('https://creativecommons.org/licenses/by-sa/4.0/deed.en', 'CC 4.0')}
 
@@ -214,9 +216,13 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
         # put 'articles/' back
         sortedArticle.outputPath = 'articles/' + sortedArticle.outputPath
     
-    # combine previews
-    with open('articles/article_list.html', 'w', encoding='utf-8') as jeffArticleList:
-        jeffArticleList.write(''.join(jeffArticlePreviews))
+    # write each page of the articles directory
+    numPages = -(len(jeffArticlePreviews) // -PAGE_LIST_LENGTH)
+    for i in range(numPages):
+        # combine previews
+        with open('articles/_article_list/page_{0}.html'.format(i + 1), 'w', encoding='utf-8') as jeffArticleList:
+            pagePreviews = jeffArticlePreviews[(i * PAGE_LIST_LENGTH):((i * PAGE_LIST_LENGTH) + PAGE_LIST_LENGTH)]
+            jeffArticleList.write(''.join(pagePreviews))
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
