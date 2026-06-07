@@ -18,7 +18,7 @@ if len(sys.argv) > 1:
 
 PAGE_LIST_LENGTH = 5
 
-topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy', 'Other': 'other'}
+topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics', 'Biology': 'biology', 'Chemistry': 'chemistry', 'Computing': 'computing', 'Psychology and Psychiatry': 'psychology', 'Linguistics': 'linguistics', 'Philosophy': 'philosophy', 'Culture': 'other'}
 
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
 tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
@@ -236,8 +236,11 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
-    if sortedArticles[0].enabled == False and DEBUG_MODE == False:
-        featuredArticle = sortedArticles[1]
+    if sortedArticles[0].enabled == False:
+        if DEBUG_MODE == False:
+            featuredArticle = sortedArticles[1]
+    elif sortedArticles[0].date > datetime.date.today().toordinal():
+        print('WARNING: An enabled article has its date in the future.')
     featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
     featuredArticlePreview = featuredArticle.replaceTokens(featuredArticleTemplate)

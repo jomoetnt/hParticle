@@ -654,5 +654,5 @@ button {
 @media (max-width: 750px) {
     .jeffTeaser {display: none;}
     .jeffArticleLink {height: 180px; width: max(90vw, 560px);}
-    .jeffAnnouncementLink {width: max(90vw, 560px);}
+    .jeffAnnouncementLink {width: max(90vw, 400px);}
 }

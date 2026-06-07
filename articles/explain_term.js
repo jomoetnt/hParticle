@@ -9,6 +9,7 @@ function termClicked(termElement)
 
     if (popupElement.style.opacity == 0)
     {
+        popupElement.style.display = "block";
         popupElement.style.opacity = "1.0";
 
         idealPosition = termElement.getBoundingClientRect().left + termElement.getBoundingClientRect().width / 2 - popupElement.getBoundingClientRect().width / 2;
@@ -50,6 +51,5 @@ function banishElement(element)
 {
     if (element.style.opacity == 1)
         return;
-    element.style.left = "-500px";
-    element.style.top = "-500px";
+    element.style.display = "none";
 }
