@@ -464,6 +464,11 @@ button {
     padding-bottom: 20px;
 }
 
+.jeffAnnouncementListItem {
+    min-width: 400px;
+    padding-bottom: 20px;
+}
+
 .jeffArticleLink {
     align-items: stretch;
     height: 220px;

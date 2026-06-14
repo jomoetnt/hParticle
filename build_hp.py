@@ -3,6 +3,7 @@ import datetime
 import json
 import re
 import sys
+import webbrowser
 
 DEBUG_MODE = True
 
@@ -236,11 +237,14 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
     
     # make featured article preview
     featuredArticle = sortedArticles[0]
-    if sortedArticles[0].enabled == False:
+    i = 0
+    while sortedArticles[i].enabled == False:
+        i += 1
         if DEBUG_MODE == False:
-            featuredArticle = sortedArticles[1]
-    elif sortedArticles[0].date > datetime.date.today().toordinal():
-        print('WARNING: An enabled article has its date in the future.')
+            featuredArticle = sortedArticles[i]
+    for article in sortedArticles:
+        if article.date > datetime.date.today().toordinal() and article.enabled == True:
+            print('WARNING: An enabled article has its date in the future.')
     featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
     featuredArticlePreview = featuredArticle.replaceTokens(featuredArticleTemplate)
@@ -390,3 +394,6 @@ for pagePath in list(subpageTexts.keys()):
 for pagePath in list(subpageTexts.keys()):
     with open(subpagePaths[pagePath], 'w', encoding='utf-8') as pageFile:
         pageFile.write(subpageTexts[pagePath])
+
+if DEBUG_MODE:
+    webbrowser.open('file:///D:/nonsense/hParticle/index.html')
