@@ -24,7 +24,7 @@ topicColours = {'Physics and Astronomy': 'physics', 'Mathematics': 'mathematics'
 subpagePaths = {'jeffHome.html': 'index.html', 'articles/jeffArticles.html': 'articles/index.html', 'about/jeffAbout.html': 'about/index.html', 'announcements/jeffAnnouncements.html': 'announcements/index.html'}
 tokenPaths = {r'{jeffHeader}': 'jeffHeader.html', r'{jeffFooter}': 'jeffFooter.html', r'{jeffArticleList}': 'articles/article_list.html', r'{jeffAnnouncementList}': 'announcements/announcement_list.html', r'{jeffFeaturedArticle}': 'articles/featured.html', r'{jeffFeaturedAnnouncement}': 'announcements/featured.html'}
 
-licenseTypes = {'CC4': ('https://creativecommons.org/licenses/by-sa/4.0/deed.en', 'CC 4.0')}
+licenseTypes = {'CC4': ('https://creativecommons.org/licenses/by-sa/4.0/deed.en', 'CC 4.0'), 'CC0': ('https://creativecommons.org/publicdomain/zero/1.0/deed.en', 'CC0')}
 
 # add each article to the article path list
 articlePaths = {}
