@@ -244,9 +244,9 @@ with open('articles/jeffArticlePreview.html', 'r', encoding='utf-8') as jeffArti
             featuredArticle = sortedArticles[i]
     for article in sortedArticles:
         if article.date > datetime.date.today().toordinal() and article.enabled:
-            print('WARNING: An enabled article has its date in the future.')
+            print('WARNING: {0} is enabled but its date is in the future.')
         elif article.date <= datetime.date.today().toordinal() and article.enabled == False:
-            print('WARNING: A disabled article has its date in the past.')
+            print('WARNING: {0} is disabled but its date is in the past.')
     featuredArticle.thumbnail = 'articles/' + featuredArticle.thumbnail
     featuredArticleTemplate = jeffArticlePreviewTemplate.replace('jeffArticleListItem', 'jeffFeaturedArticle').replace('jeffArticleLink', 'jeffFeaturedArticleLink').replace('jeffTopicSmall', 'jeffTopic').replace('jeffArticleHeadingSmall', 'jeffFeaturedArticleHeading').replace('jeffDateSmall', 'jeffDateBig').replace('jeffArticleImageSmall', 'jeffFeaturedImageBig').replace('jeffSmallArticlePreview', 'jeffBigArticlePreview')
     featuredArticlePreview = featuredArticle.replaceTokens(featuredArticleTemplate)
